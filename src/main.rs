@@ -4,6 +4,13 @@ use socketioxide::extract::{Data, SocketRef};
 use socketioxide::SocketIo;
 use tokio::net::TcpListener;
 
+#[cfg(not(target_env = "msvc"))]
+use tikv_jemallocator::Jemalloc;
+
+#[cfg(not(target_env = "msvc"))]
+#[global_allocator]
+static GLOBAL: Jemalloc = Jemalloc;
+
 #[tokio::main]
 async fn main() {
     let (layer, io) = SocketIo::new_layer();
